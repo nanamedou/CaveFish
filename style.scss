@@ -1,0 +1,128 @@
+$base-color: #999999;
+$base-color2: #262626;
+$main-color: lightskyblue;
+$font-color: #000;
+$accent-color: white;
+
+@mixin default-border{
+  border: 1px solid $main-color;
+}
+
+@mixin default-thumb{
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  width: 12px;
+  height: 12px;
+  display: block;
+  background-color: $accent-color;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+@mixin default-track{
+  -webkit-appearance: none;
+  -ms-progress-appearance: none;
+  appearance: none;
+  position: relative;
+  border: none;
+  width: 100%;
+  height: 12px;
+  display: block;
+  background-color: $base-color2;
+  border-radius: 6px;
+}
+
+body{
+  background-color: $base-color;
+}
+
+input[type="checkbox"] {
+  display: none;
+  & + label{
+    padding-left: 20px;
+    position: relative;
+    display: block;
+    border: 1px solid $main-color;
+    border-radius: 4px;
+    &:before{
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 15px;
+      height: 15px;
+      border: 1px solid $base-color;
+      border-radius: 4px;
+      background-color: $base-color2;
+    }
+  }
+
+  &:checked + label{
+    background-color: #c7c7c7;
+    &:after{
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: 5px;
+      width: 7px;
+      height: 14px;
+      transform: rotate(40deg);
+      border-bottom: 3px solid red;
+      border-right: 3px solid red;
+    }
+  }
+}
+
+input[type="range"] {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: $main-color;
+  height: 16px;
+  overflow: visible;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+
+  &::-moz-range-thumb {
+    @include default-thumb;
+  }
+
+  &::-webkit-slider-thumb {
+    @include default-thumb;
+  }
+
+  &::-moz-range-track{
+    @include default-track;
+  }
+
+  &::-webkit-slider-runnable-track{
+    @include default-track;
+  }
+
+  &::-ms-track{
+    @include default-track;
+  }
+}
+
+.input {
+  display: flex
+}
+
+.input_tag {
+  width: 12em;
+}
+
+.input_object {
+  width: 600px;
+}
+
+.input_value {
+  text-align: right;
+  width: 5em;
+}

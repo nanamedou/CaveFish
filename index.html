@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+
+  <audio>
+  </audio>
+
+  <canvas id="canvas" width="900" height="400"></canvas>
+  
+  <div class="input">
+    <div class="input_tag">←up・down→</div>
+    <input class="input_object" id="updownRng" type="range">
+    <div class="input_value" id="updownVal">0</div>
+  </div>
+  <div class="input">
+
+    <div class="input_tag">Your Name</div>
+    <input type="text" id="plNameTxt" value="O.Sakana"></input>
+    <button id="resetBtn">reset</button>
+  </div>
+
+  <div class="input">
+    <input id="acvBubbleCbx" type="checkbox" checked="checked">
+    <label for="acvBubbleCbx">Activate Bubbles</label>
+    <input id="acvBWCbx" type="checkbox" checked="checked">
+    <label for="acvBWCbx">Activate Background Wall</label>
+    <input id="acvFWCbx" type="checkbox" checked="checked">
+    <label for="acvFWCbx">Activate Frontside Wall</label>
+  </div>
+
+  <dev>
+    <p>
+      ***説明***<br>
+      1.Your Name　の右の入力欄にユーザー名を入れる<br>
+      2.resetボタンを押すとゲーム開始<br>
+      3.一番上のup・downバーで上昇と下降<br>
+      4.緑の壁に当たらないように赤い魚を操作して高得点を目ざせ！！<br>
+      ***Tips***<br>
+      オレンジの泡に当たると+10ポイント<br>
+      チェックボックスをいじると画面の表示がいじれるぞ<br>
+      見ずらいとき、重いときはいろいろ試して自分に合った設定を見つけよう！！<br>
+    </p>
+  </dev>
+</body>
+
+</html>
+
+<script src="./script.js" type="module"></script>
