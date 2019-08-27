@@ -18,6 +18,8 @@ let acvBWCbx = document.getElementById('acvBWCbx')
 let acvFWCbx = document.getElementById('acvFWCbx')
 
 /* 定数の設定 */
+const MAX_FPS = 60
+const MSPF = 1000 / 60
 const WALL_EDGE = 32
 const CAVE_EDGE_DISTANCE = cs.width / (WALL_EDGE - 1 - 1)
 
@@ -161,7 +163,6 @@ class Bubble{
 function main() {
   /* 各種データ宣言 */
   let game_over = true
-  let now_rendering = false
 
   let distance = 0
   let score = 0
@@ -311,8 +312,7 @@ function main() {
       }
     }
 
-    /* 描画関数 */
-
+    /* 描画処理 */
     ctx.fillStyle = 'blue'
     ctx.fillRect(0, 0, cs.width, cs.height)
 
@@ -404,7 +404,6 @@ function main() {
   cs.addEventListener('mousedown', () => {
     onMouseDown = true
     whileMouseDown = true
-    console.log('aaa')
     
   }, false);
   cs.addEventListener('mouseup', () => {
@@ -428,14 +427,18 @@ function main() {
   /* 描画の初期化・実行 */
   initialize()
 
+  let time_last = performance.now()
+
   let safe_render = ()=>{
-    if(now_rendering === false){
-      now_rendering = true;
-      render()
-      now_rendering = false;
-    }
+    
+    render()
+
+    let time_now = performance.now()
+
+    setTimeout(safe_render, Math.max(0, MSPF - (time_now - time_last)))
+    time_last = time_now
   }
-  setInterval(safe_render, 1000 / 60)
+  safe_render()
 }
 
 
