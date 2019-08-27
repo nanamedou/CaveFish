@@ -21,6 +21,13 @@ let acvFWCbx = document.getElementById('acvFWCbx')
 const WALL_EDGE = 32
 const CAVE_EDGE_DISTANCE = cs.width / (WALL_EDGE - 1 - 1)
 
+/* global変数定義 */
+let updownInputVal = 0 
+let whileMouseDown = false
+let onMouseDown = false
+let onMouseUp = false
+let mousePos = {x:0,y:0}
+
 /**
  * のこぎり状に領域を塗りつぶす
  * @param {CanvasRenderingContext2D} ctx - コンテキスト２ｄ
@@ -248,10 +255,22 @@ function main() {
 
   /* 描画関数 */
   let render = () => {
-    fish_ddy = Number(updownRng.value) / 10000
+
+    /* 入力処理+ゲームの経過処理 */
+    if(whileMouseDown){
+      if(mousePos.y < fish_y){
+        updownInputVal= (mousePos.y - fish_y)/ fish_y * 100
+      }else{
+        updownInputVal = (mousePos.y - fish_y) / (cs.height - fish_y) * 100
+      }
+    }
+    fish_ddy = updownInputVal / 10000
 
     if(game_over){
-
+      if(onMouseDown){
+        initialize()
+        game_over = false
+      }
     }else{      
       /* 移動による得点追加 */
       if(Math.floor(distance / 100) !== Math.floor((distance + scroll_dx) / 100))score += 1
@@ -291,6 +310,9 @@ function main() {
         game_over = true
       }
     }
+
+    /* 描画関数 */
+
     ctx.fillStyle = 'blue'
     ctx.fillRect(0, 0, cs.width, cs.height)
 
@@ -359,17 +381,51 @@ function main() {
       }
 
     }
+
+    /* 入力機能へのフィードバック */
+    if(whileMouseDown){
+      updownRng.value = updownInputVal
+      updownRng.oninput()
+    }
+    if(onMouseDown){
+      onMouseDown = false
+    }
+    if(onMouseUp){
+      onMouseUp = false
+    }
   }
 
+  /* 入力関数 */
   updownRng.oninput = () => {
+    updownInputVal = Number(updownRng.value)
     updownVal.innerHTML = updownRng.value
   }
+
+  cs.addEventListener('mousedown', () => {
+    onMouseDown = true
+    whileMouseDown = true
+    console.log('aaa')
+    
+  }, false);
+  cs.addEventListener('mouseup', () => {
+    onMouseUp = true
+    whileMouseDown =false
+  }, false);
+  cs.addEventListener('mousemove', (e)=>{
+    if(whileMouseDown){
+      mousePos.x = e.clientX
+      mousePos.y = e.clientY
+    }
+  },false);
+
+
 
   resetBtn.onclick = ()=>{
     initialize()
     game_over = false
   }
   
+  /* 描画の初期化・実行 */
   initialize()
 
   let safe_render = ()=>{
